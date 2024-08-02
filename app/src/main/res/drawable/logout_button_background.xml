@@ -1,0 +1,16 @@
+<!-- res/drawable/logout_button_background.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF"/>
+            <corners android:radius="6dp"/><!-- Orange background -->
+            <stroke
+                android:width="2dp"
+                android:color="#FFFFFF"/>
+            <gradient
+                android:angle="0"
+                android:startColor="#FF8C42"
+                android:endColor="#FFAB66"/><!-- White border color and width --><!-- Corner radius -->
+        </shape>
+    </item>
+</selector>
