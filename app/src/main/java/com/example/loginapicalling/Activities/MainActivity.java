@@ -34,7 +34,6 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "API123";
     private ApiService apiService;
-    private TextInputLayout emailLayout, passwordLayout;
     private TextInputEditText emailInput, passwordInput;
     private Button loginButton;
     private SharedPreferences sharedPreferences;
@@ -49,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         Log.d(TAG, "onCreate called");
-
-        emailLayout = findViewById(R.id.emailLayout);
-        passwordLayout = findViewById(R.id.passwordLayout);
         emailInput = findViewById(R.id.email);
         passwordInput = findViewById(R.id.password);
         // Initialize SharedPreferences
