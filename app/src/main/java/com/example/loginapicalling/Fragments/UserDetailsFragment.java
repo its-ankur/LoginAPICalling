@@ -1,3 +1,4 @@
+// UserDetailsFragment.java
 package com.example.loginapicalling.Fragments;
 
 import android.content.Intent;
@@ -16,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.loginapicalling.Activities.MainActivity;
 import com.example.loginapicalling.Retrofit.ApiService;
@@ -59,36 +59,38 @@ public class UserDetailsFragment extends Fragment {
             fetchUserDetails(token);
         }
 
+        // Set up the logout button click listener
         logout.setOnClickListener(v -> showLogoutConfirmationDialog());
 
         return view;
     }
 
+    // Method to show a confirmation dialog for logout
     private void showLogoutConfirmationDialog() {
-        // Inflate the custom layout
+        // Inflate the custom layout for the dialog
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_custom, null);
 
-        // Create and configure the dialog
+        // Create and configure the AlertDialog
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setView(dialogView)
-                .setCancelable(false); // Prevent closing by tapping outside
+                .setCancelable(false); // Prevent dialog from closing by tapping outside
 
         // Create the dialog
         AlertDialog dialog = builder.create();
 
-        // Find and configure the buttons
+        // Find and configure the dialog buttons
         Button positiveButton = dialogView.findViewById(R.id.dialog_positive_button);
         Button negativeButton = dialogView.findViewById(R.id.dialog_negative_button);
 
+        // Handle the positive button click (confirm logout)
         positiveButton.setOnClickListener(v -> {
-            // User clicked Yes button
             logout();
             dialog.dismiss(); // Close the dialog
         });
 
+        // Handle the negative button click (cancel logout)
         negativeButton.setOnClickListener(v -> {
-            // User cancelled the dialog
             dialog.dismiss(); // Close the dialog
         });
 
@@ -96,6 +98,7 @@ public class UserDetailsFragment extends Fragment {
         dialog.show();
     }
 
+    // Method to handle logout process
     private void logout() {
         // Log the logout event
         Log.d("Logout", "Logout button pressed");
@@ -108,12 +111,13 @@ public class UserDetailsFragment extends Fragment {
         Log.d("Logout", "SharedPreferences cleared: " + success);
         Toast.makeText(requireContext(), "Successfully Logout", Toast.LENGTH_SHORT).show();
 
-        // Start the LoginPage activity
+        // Start the MainActivity
         Intent intent = new Intent(requireContext(), MainActivity.class);
         startActivity(intent);
         requireActivity().finish(); // Close the current activity
     }
 
+    // Method to fetch user details using the provided token
     private void fetchUserDetails(String token) {
         Log.d("Fetch", "Fetch user details called");
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
@@ -123,6 +127,7 @@ public class UserDetailsFragment extends Fragment {
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     UserResponse userResponse = response.body();
+                    // Update UI with user details
                     nameView.setText(userResponse.getFirstName() + " " + userResponse.getLastName());
                     emailView.setText(userResponse.getEmail());
                     genderView.setText(userResponse.getGender());

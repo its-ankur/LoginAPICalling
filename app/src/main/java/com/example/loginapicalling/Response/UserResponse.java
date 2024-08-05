@@ -1,12 +1,27 @@
+// UserResponse.java
 package com.example.loginapicalling.Response;
 
 public class UserResponse {
+
+    // Field to store the user ID
     private int id;
+
+    // Field to store the user's first name
     private String firstName;
+
+    // Field to store the user's last name
     private String lastName;
+
+    // Field to store the user's maiden name
     private String maidenName;
+
+    // Field to store the user's gender
     private String gender;
+
+    // Field to store the user's email address
     private String email;
+
+    // Field to store the user's username
     private String username;
 
     // Getter for id
@@ -79,6 +94,7 @@ public class UserResponse {
         this.username = username;
     }
 
+    // Override toString method to provide a string representation of the UserResponse object
     @Override
     public String toString() {
         return "UserResponse{" +
