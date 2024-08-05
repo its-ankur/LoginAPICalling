@@ -15,4 +15,6 @@
     <color name="textInputBoxBackgroundColor">#FFFFFF</color>
     <color name="textInputTextColor">#000000</color> <!-- Black -->
     <color name="textInputLineColor">#000000</color> <!-- Black -->
+    <color name="selected_color">#FFB055</color>
+    <color name="unselected_color">#808080</color>
 </resources>

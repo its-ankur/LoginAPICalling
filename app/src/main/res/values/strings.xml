@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">LoginAPICalling</string>
+    <string name="floating_action_button_behavior">Fragment Action Button Behaviour</string>
 </resources>

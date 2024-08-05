@@ -1,4 +1,4 @@
-package com.example.loginapicalling;
+package com.example.loginapicalling.Retrofit;
 
 public class LoginRequest {
     private String username;

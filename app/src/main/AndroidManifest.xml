@@ -15,7 +15,7 @@
         android:theme="@style/Theme.LoginAPICalling"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.UserDetailsActivity"
+            android:name=".Activities.BottomNavigation"
             android:exported="false">
         </activity>
         <activity
