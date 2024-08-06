@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
 
     <application
         android:allowBackup="true"
@@ -16,6 +18,14 @@
         tools:targetApi="31">
         <activity
             android:name=".Activities.BottomNavigation"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".Activities.BarcodeScannerActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".Activities.QRCodeScannerActivity"
             android:exported="false">
         </activity>
         <activity

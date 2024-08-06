@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_qr_code"
+        android:title="QR Code"
+        android:icon="@drawable/baseline_qr_code_scanner_24" />
+    <item
+        android:id="@+id/menu_bar_code"
+        android:title="Barcode"
+        android:icon="@drawable/bar_code_scanner" />
+</menu>

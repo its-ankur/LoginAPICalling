@@ -1,13 +1,13 @@
 package com.example.loginapicalling.Activities;
 
-import android.content.pm.ActivityInfo;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -21,36 +21,42 @@ import com.example.loginapicalling.Fragments.MyVisitsFragment;
 import com.example.loginapicalling.Fragments.SettingsFragment;
 import com.example.loginapicalling.Fragments.UserDetailsFragment;
 import com.example.loginapicalling.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-// Activity for Bottom Navigation with ViewPager and TabLayout
 public class BottomNavigation extends AppCompatActivity {
 
-    private ViewPager2 viewPager; // ViewPager for fragment paging
-    private TabLayout tabLayout; // TabLayout for tab navigation
+    private ViewPager2 viewPager;
+    private TabLayout tabLayout;
+    private FloatingActionButton fab, fabAddAlarm, fabAddPerson;
+    private TextView addAlarmActionText, addPersonActionText;
+    private boolean areSubFabsVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Disable night mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        // Set the layout for this activity
         setContentView(R.layout.activity_bottom_navigation);
 
-        // Lock screen orientation to portrait
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        // Initialize ViewPager and TabLayout
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
+        fab = findViewById(R.id.add_fab);
+        fabAddAlarm = findViewById(R.id.add_alarm_fab);
+        fabAddPerson = findViewById(R.id.add_person_fab);
+        addAlarmActionText = findViewById(R.id.add_alarm_action_text);
+        addPersonActionText = findViewById(R.id.add_person_action_text);
 
-        // Set up the ViewPager with a FragmentStateAdapter
+        // Hide sub-FABs and action texts initially
+        fabAddAlarm.setVisibility(View.GONE);
+        fabAddPerson.setVisibility(View.GONE);
+        addAlarmActionText.setVisibility(View.GONE);
+        addPersonActionText.setVisibility(View.GONE);
+
         viewPager.setAdapter(new FragmentStateAdapter(this) {
             @NonNull
             @Override
             public Fragment createFragment(int position) {
-                // Return the appropriate fragment based on the position
                 switch (position) {
                     case 0:
                         return new UserDetailsFragment();
@@ -61,24 +67,21 @@ public class BottomNavigation extends AppCompatActivity {
                     case 3:
                         return new SettingsFragment();
                     default:
-                        return new MyVisitsFragment(); // Default fragment if none matches
+                        return new MyVisitsFragment();
                 }
             }
 
             @Override
             public int getItemCount() {
-                return 4; // Number of fragments
+                return 4;
             }
         });
 
-        // Link TabLayout with ViewPager2
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            // Inflate custom tab layout
             View tabView = LayoutInflater.from(BottomNavigation.this).inflate(R.layout.custom_tab, null);
             TextView tabText = tabView.findViewById(R.id.tabText);
             ImageView tabIcon = tabView.findViewById(R.id.tabIcon);
 
-            // Set text and icon for each tab based on position
             switch (position) {
                 case 0:
                     tabText.setText("Details");
@@ -98,15 +101,12 @@ public class BottomNavigation extends AppCompatActivity {
                     break;
             }
 
-            // Set the custom view for the tab
             tab.setCustomView(tabView);
-        }).attach(); // Attach the mediator to sync TabLayout and ViewPager
+        }).attach();
 
-        // Add a listener to handle tab selection changes
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                // Update the selected tab's text and icon color
                 View tabView = tab.getCustomView();
                 if (tabView != null) {
                     TextView tabText = tabView.findViewById(R.id.tabText);
@@ -118,7 +118,6 @@ public class BottomNavigation extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                // Update the unselected tab's text and icon color
                 View tabView = tab.getCustomView();
                 if (tabView != null) {
                     TextView tabText = tabView.findViewById(R.id.tabText);
@@ -130,8 +129,58 @@ public class BottomNavigation extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                // Handle reselection if needed (currently not implemented)
             }
         });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!areSubFabsVisible) {
+                    fabAddAlarm.show();
+                    fabAddPerson.show();
+                    addAlarmActionText.setVisibility(View.VISIBLE);
+                    addPersonActionText.setVisibility(View.VISIBLE);
+                    areSubFabsVisible = true;
+                } else {
+                    fabAddAlarm.hide();
+                    fabAddPerson.hide();
+                    addAlarmActionText.setVisibility(View.GONE);
+                    addPersonActionText.setVisibility(View.GONE);
+                    areSubFabsVisible = false;
+                }
+            }
+        });
+
+        fabAddPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(BottomNavigation.this, QRCodeScannerActivity.class));
+            }
+        });
+
+        fabAddAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(BottomNavigation.this, BarcodeScannerActivity.class));
+            }
+        });
+    }
+
+    private void showScanOptions() {
+        PopupMenu popupMenu = new PopupMenu(this, findViewById(R.id.add_fab));
+        popupMenu.getMenuInflater().inflate(R.menu.scan_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.menu_qr_code) {
+                startActivity(new Intent(BottomNavigation.this, QRCodeScannerActivity.class));
+                return true;
+            } else if (id == R.id.menu_bar_code) {
+                startActivity(new Intent(BottomNavigation.this, BarcodeScannerActivity.class));
+                return true;
+            }
+            return false;
+        });
+
+        popupMenu.show();
     }
 }
