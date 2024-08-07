@@ -32,7 +32,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "API123"; // Tag for logging
-    private ApiService apiService; // API service instance
+    private ApiService apiService; // API service instance for making network requests
     private TextInputEditText emailInput, passwordInput; // Email and password input fields
     private Button loginButton; // Login button
     private SharedPreferences sharedPreferences; // SharedPreferences for storing the token
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         // Initialize ApiService
         apiService = RetrofitClient.getClient().create(ApiService.class);
 
-        // Check if a token exists and fetch user details if necessary
+        // Check if a token exists in SharedPreferences and fetch user details if necessary
         String token = sharedPreferences.getString("token", null);
         if (token != null) {
             Log.d(TAG, "Token found, fetching user details...");
@@ -86,14 +86,16 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 final int DRAWABLE_RIGHT = 2; // Right drawable index
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    // Check if the touch is on the right drawable
+                    // Check if the touch is on the right drawable (eye icon)
                     if (event.getRawX() >= (passwordInput.getRight() - passwordInput.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         // Toggle between showing and hiding the password
                         if (passwordInput.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                            // Show password
                             passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                             // Change the drawable to viewOn
                             passwordInput.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_crossed_eye, 0);
                         } else {
+                            // Hide password
                             passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                             // Change the drawable to viewOff
                             passwordInput.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_remove_red_eye_24, 0);
@@ -174,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Network request failed", Toast.LENGTH_SHORT).show();
             }
         });
-        // Clear input fields
+        // Clear input fields after login attempt
         emailInput.setText("");
         passwordInput.setText("");
     }

@@ -30,8 +30,9 @@ import retrofit2.Response;
 
 public class UserDetailsFragment extends Fragment {
 
-    private TextView nameView, emailView, genderView, userName;
-    private static final String TAG = "API";
+    // UI elements
+    private TextView nameView, emailView, genderView, userName, name;
+    private static final String TAG = "API"; // Tag for logging
     private Button logout;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -48,19 +49,25 @@ public class UserDetailsFragment extends Fragment {
         genderView = view.findViewById(R.id.genderView);
         userName = view.findViewById(R.id.userNameView);
         logout = view.findViewById(R.id.LogoutButton);
+        name = view.findViewById(R.id.name);
 
-        // Initialize SharedPreferences
+        // Initialize SharedPreferences for storing user token
         sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", AppCompatActivity.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
-        // Check for token and fetch user details if token exists
+        // Retrieve token from SharedPreferences and fetch user details if token exists
         String token = sharedPreferences.getString("token", null);
         if (token != null) {
             fetchUserDetails(token);
         }
 
-        // Set up the logout button click listener
-        logout.setOnClickListener(v -> showLogoutConfirmationDialog());
+        // Set up click listener for the logout button
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLogoutConfirmationDialog(); // Show confirmation dialog for logout
+            }
+        });
 
         return view;
     }
@@ -85,7 +92,7 @@ public class UserDetailsFragment extends Fragment {
 
         // Handle the positive button click (confirm logout)
         positiveButton.setOnClickListener(v -> {
-            logout();
+            logout(); // Perform logout
             dialog.dismiss(); // Close the dialog
         });
 
@@ -98,7 +105,7 @@ public class UserDetailsFragment extends Fragment {
         dialog.show();
     }
 
-    // Method to handle logout process
+    // Method to handle the logout process
     private void logout() {
         // Log the logout event
         Log.d("Logout", "Logout button pressed");
@@ -128,7 +135,10 @@ public class UserDetailsFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     UserResponse userResponse = response.body();
                     // Update UI with user details
-                    nameView.setText(userResponse.getFirstName() + " " + userResponse.getLastName());
+                    String name1 = userResponse.getFirstName() + " " + userResponse.getLastName();
+                    Log.d("Name", "Name = " + name1);
+                    name.setText(name1);
+                    nameView.setText(name1);
                     emailView.setText(userResponse.getEmail());
                     genderView.setText(userResponse.getGender());
                     userName.setText(userResponse.getUsername());

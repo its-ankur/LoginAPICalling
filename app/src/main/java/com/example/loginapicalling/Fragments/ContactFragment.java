@@ -20,17 +20,19 @@ public class ContactFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment from XML
         View view = inflater.inflate(R.layout.fragment_contact, container, false);
 
-        // Find and initialize the Toolbar
+        // Find and initialize the Toolbar component in the layout
         Toolbar toolbar = view.findViewById(R.id.toolbar);
+
         // Find the TextView for the toolbar title
         TextView toolbarTitle = view.findViewById(R.id.toolbarTitle);
-        // Set the title of the toolbar
+
+        // Set the title of the toolbar to "My Contacts"
         toolbarTitle.setText("My Contacts");
 
-        // Return the view for this fragment
+        // Return the view for this fragment to be displayed
         return view;
     }
 }
