@@ -29,6 +29,10 @@
             android:exported="false">
         </activity>
         <activity
+            android:name=".Activities.InAppBrowserActivity"
+            android:exported="false">
+        </activity>
+        <activity
             android:name=".Activities.MainActivity"
             android:exported="true"
             android:launchMode="standard"

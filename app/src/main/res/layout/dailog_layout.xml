@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_gravity="center"
+    android:background="@drawable/rounded_background_dailog">
+
+    <TextView
+        android:id="@+id/confirmation_message"
+        android:layout_width="263dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="About Us"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/app_message"
+        android:layout_width="182dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_background"
+        android:backgroundTint="@color/toolbar_color"
+        android:gravity="center"
+        android:text="App Development"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/main_message"
+        android:layout_width="182dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_background"
+        android:backgroundTint="@color/toolbar_color"
+        android:gravity="center"
+        android:text="Main Website"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/back_message"
+        android:layout_width="67dp"
+        android:layout_height="38dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:background="@drawable/border_textview"
+        android:gravity="center"
+        android:text="Back"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="18sp" />
+
+</LinearLayout>
