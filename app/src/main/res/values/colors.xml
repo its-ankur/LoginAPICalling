@@ -18,4 +18,6 @@
     <color name="selected_color">#FFB055</color>
     <color name="unselected_color">#808080</color>
     <color name="light_orange">#FFCC80</color>
+    <color name="light_shade">#F4E5CF</color>
+    <color name="light_blue">#D4F5FF</color>
 </resources>

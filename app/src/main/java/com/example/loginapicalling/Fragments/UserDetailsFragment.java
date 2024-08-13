@@ -1,4 +1,3 @@
-// UserDetailsFragment.java
 package com.example.loginapicalling.Fragments;
 
 import android.content.Intent;
@@ -58,7 +57,7 @@ public class UserDetailsFragment extends Fragment {
         // Retrieve token from SharedPreferences and fetch user details if token exists
         String token = sharedPreferences.getString("token", null);
         if (token != null) {
-            fetchUserDetails(token);
+            fetchUserDetails(token); // Fetch user details using the token
         }
 
         // Set up click listener for the logout button
@@ -86,7 +85,7 @@ public class UserDetailsFragment extends Fragment {
         // Create the dialog
         AlertDialog dialog = builder.create();
 
-        // Find and configure the dialog buttons
+        // Find and configure dialog buttons
         Button positiveButton = dialogView.findViewById(R.id.dialog_positive_button);
         Button negativeButton = dialogView.findViewById(R.id.dialog_negative_button);
 

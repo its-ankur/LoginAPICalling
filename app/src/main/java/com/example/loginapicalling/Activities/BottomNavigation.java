@@ -1,6 +1,7 @@
 package com.example.loginapicalling.Activities;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +28,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class BottomNavigation extends AppCompatActivity {
 
-    private ViewPager2 viewPager; // ViewPager for fragment navigation
-    private TabLayout tabLayout; // TabLayout for tabs at the top
+    private ViewPager2 viewPager; // ViewPager2 for fragment navigation
+    private TabLayout tabLayout; // TabLayout to display tabs at the top
     private FloatingActionButton fab, fabAddAlarm, fabAddPerson; // Main FAB and sub-FABs
     private TextView addAlarmActionText, addPersonActionText; // Action text for sub-FABs
     private boolean areSubFabsVisible = false; // Flag to track visibility of sub-FABs
@@ -38,7 +39,10 @@ public class BottomNavigation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // Disable night mode for the activity
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        setContentView(R.layout.activity_bottom_navigation); // Set the layout
+        // Set the orientation to portrait
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        // Set the content view for this activity
+        setContentView(R.layout.activity_bottom_navigation);
 
         // Initialize views
         viewPager = findViewById(R.id.viewPager);
@@ -55,7 +59,7 @@ public class BottomNavigation extends AppCompatActivity {
         addAlarmActionText.setVisibility(View.GONE);
         addPersonActionText.setVisibility(View.GONE);
 
-        // Set up the ViewPager with fragments
+        // Set up the ViewPager with a FragmentStateAdapter
         viewPager.setAdapter(new FragmentStateAdapter(this) {
             @NonNull
             @Override
@@ -71,7 +75,7 @@ public class BottomNavigation extends AppCompatActivity {
                     case 3:
                         return new SettingsFragment();
                     default:
-                        return new MyVisitsFragment();
+                        return new MyVisitsFragment(); // Default fragment if position is invalid
                 }
             }
 
@@ -81,14 +85,14 @@ public class BottomNavigation extends AppCompatActivity {
             }
         });
 
-        // Set up TabLayoutMediator to link TabLayout and ViewPager
+        // Set up TabLayoutMediator to link TabLayout with ViewPager
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             // Inflate custom tab layout
             View tabView = LayoutInflater.from(BottomNavigation.this).inflate(R.layout.custom_tab, null);
             TextView tabText = tabView.findViewById(R.id.tabText);
             ImageView tabIcon = tabView.findViewById(R.id.tabIcon);
 
-            // Set text and icon for each tab
+            // Set text and icon for each tab based on the position
             switch (position) {
                 case 0:
                     tabText.setText("Details");
@@ -115,7 +119,7 @@ public class BottomNavigation extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                // Highlight selected tab
+                // Highlight the selected tab
                 View tabView = tab.getCustomView();
                 if (tabView != null) {
                     TextView tabText = tabView.findViewById(R.id.tabText);
@@ -139,7 +143,7 @@ public class BottomNavigation extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                // No action needed on tab reselected
+                // No action needed when tab is reselected
             }
         });
 
@@ -164,11 +168,13 @@ public class BottomNavigation extends AppCompatActivity {
 
         // Set up click listener for the Add Person FAB
         fabAddPerson.setOnClickListener(view ->
+                // Start QR Code Scanner activity
                 startActivity(new Intent(BottomNavigation.this, QRCodeScannerActivity.class))
         );
 
         // Set up click listener for the Add Alarm FAB
         fabAddAlarm.setOnClickListener(view ->
+                // Start Barcode Scanner activity
                 startActivity(new Intent(BottomNavigation.this, BarcodeScannerActivity.class))
         );
     }
